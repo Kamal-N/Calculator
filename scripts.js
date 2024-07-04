@@ -1,88 +1,54 @@
-const applianceData = {
-    "fan": { name: "Ceiling Fan", wattage: 75 },
-    "small-tvs": { name: "Small TV", wattage: 50 },
-    "medium-tvs": { name: "Medium TV", wattage: 100 },
-    "large-tvs": { name: "Large TV", wattage: 150 },
-    "fridge": { name: "Medium Refrigerator", wattage: 200 },
-    "laptops": { name: "Laptop", wattage: 50 },
-    "desktops": { name: "Desktop", wattage: 150 },
-    "ac": { name: "Small AC Unit", wattage: 500 },
-    "heaters": { name: "Small Heater", wattage: 750 },
-    "microwave": { name: "Microwave", wattage: 1000 },
-    "washing-machine": { name: "Washing Machine", wattage: 500 },
-    "dishwasher": { name: "Dishwasher", wattage: 1200 },
-    "oven": { name: "Electric Oven", wattage: 2000 },
-    "toaster": { name: "Toaster", wattage: 800 },
-    "vacuum": { name: "Vacuum Cleaner", wattage: 600 }
-};
-
 function addAppliance() {
-    const selectedAppliance = document.getElementById("add-appliance").value;
-    const applianceInfo = applianceData[selectedAppliance];
+    const applianceRow = document.createElement('div');
+    applianceRow.classList.add('form-group', 'appliance-row');
 
-    const div = document.createElement("div");
-    div.classList.add("form-group");
-    div.innerHTML = `
-        <label for="${selectedAppliance}">Number of ${applianceInfo.name}s (${applianceInfo.wattage}W each):</label>
-        <input type="number" id="${selectedAppliance}" value="0">
+    const applianceSelect = document.createElement('select');
+    applianceSelect.classList.add('appliance-select');
+    applianceSelect.innerHTML = `
+        <option value="" disabled selected>Select Appliance</option>
+        <option value="fan">Ceiling Fan (75W)</option>
+        <option value="small-tvs">Small TV (50W)</option>
+        <option value="medium-tvs">Medium TV (100W)</option>
+        <option value="large-tvs">Large TV (150W)</option>
+        <option value="fridge">Medium Refrigerator (200W)</option>
+        <option value="laptops">Laptop (50W)</option>
+        <option value="desktops">Desktop (150W)</option>
+        <option value="ac">Small AC Unit (500W)</option>
+        <option value="heaters">Small Heater (750W)</option>
+        <option value="microwave">Microwave (1000W)</option>
+        <option value="washing-machine">Washing Machine (500W)</option>
+        <option value="dishwasher">Dishwasher (1200W)</option>
+        <option value="oven">Electric Oven (2000W)</option>
+        <option value="toaster">Toaster (800W)</option>
+        <option value="vacuum">Vacuum Cleaner (600W)</option>
     `;
-    const additionalAppliances = document.getElementById("additional-appliances");
-    additionalAppliances.appendChild(div);
-}
 
-function calculateSystem() {
-    // Get values from the form
-    const bulbs = document.getElementById('bulbs').value;
-    const usageHours = document.getElementById('usage-hours').value;
-    const sunHours = document.getElementById('sun-hours').value;
-    const batteryType = document.getElementById('battery-type').value;
+    const applianceCount = document.createElement('input');
+    applianceCount.type = 'number';
+    applianceCount.classList.add('appliance-quantity');
+    applianceCount.value = '1';
 
-    // Calculate power consumption for basic appliances
-    let totalPower = bulbs * 10;
+    const applianceUsage = document.createElement('input');
+    applianceUsage.type = 'number';
+    applianceUsage.classList.add('appliance-hourly-usage');
+    applianceUsage.value = '5';
 
-    // Calculate power consumption for additional appliances
-    Object.keys(applianceData).forEach(appliance => {
-        const quantity = document.getElementById(appliance);
-        if (quantity) {
-            totalPower += quantity.value * applianceData[appliance].wattage;
-        }
-    });
+    const applianceNameDiv = document.createElement('div');
+    applianceNameDiv.classList.add('appliance-name');
+    applianceNameDiv.appendChild(applianceSelect);
 
-    const dailyEnergy = totalPower * usageHours;
+    const applianceCountDiv = document.createElement('div');
+    applianceCountDiv.classList.add('appliance-count');
+    applianceCountDiv.appendChild(applianceCount);
 
-    // Calculate solar panel requirements
-    const solarPanelCapacity = dailyEnergy / sunHours;
-    const numberOfPanels = Math.ceil(solarPanelCapacity / 250); // Assume 250W panels
+    const applianceUsageDiv = document.createElement('div');
+    applianceUsageDiv.classList.add('appliance-usage');
+    applianceUsageDiv.appendChild(applianceUsage);
 
-    // Calculate battery requirements based on selected type
-    let batteryCapacity;
-    switch (batteryType) {
-        case '150ah-12v':
-            batteryCapacity = 150;
-            break;
-        case '150ah-24v':
-            batteryCapacity = 150 * 2; // Assuming 24V setup
-            break;
-        case '200ah-12v':
-            batteryCapacity = 200;
-            break;
-        case '200ah-24v':
-            batteryCapacity = 200 * 2; // Assuming 24V setup
-            break;
-        default:
-            batteryCapacity = 150; // Default to 150Ah 12V
-    }
+    applianceRow.appendChild(applianceNameDiv);
+    applianceRow.appendChild(applianceCountDiv);
+    applianceRow.appendChild(applianceUsageDiv);
 
-    const batteryAh = batteryCapacity * 12; // Convert to Wh for daily energy needs
-    const numberOfBatteries = Math.ceil(dailyEnergy * 2 / batteryAh); // Assume 50% depth of discharge
-
-    // Calculate inverter size
-    const inverterSize = Math.ceil(totalPower * 1.3);
-
-    // Display results
-    document.getElementById('total-power').innerText = `Total Power Consumption: ${totalPower}W`;
-    document.getElementById('daily-energy').innerText = `Total Daily Energy Consumption: ${dailyEnergy}Wh`;
-    document.getElementById('solar-panels').innerText = `Number of 250W Solar Panels Needed: ${numberOfPanels}`;
-    document.getElementById('battery').innerText = `Number of ${batteryType} Batteries Needed: ${numberOfBatteries}`;
-    document.getElementById('inverter').innerText = `Recommended Inverter Size: ${inverterSize}W`;
+    const additionalAppliances = document.getElementById('additional-appliances');
+    additionalAppliances.insertBefore(applianceRow, additionalAppliances.firstChild);
 }
