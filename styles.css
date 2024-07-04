@@ -21,7 +21,7 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 500px;
     max-width: 100%;
 }
 
@@ -95,4 +95,24 @@ button:hover {
     margin-bottom: 5px;
     font-size: 14px;
     color: #555;
+}
+
+.appliance-header,
+.appliance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.appliance-header {
+    font-weight: bold;
+}
+
+.appliance-name {
+    width: 50%;
+}
+
+.appliance-count,
+.appliance-usage {
+    width: 20%;
 }
