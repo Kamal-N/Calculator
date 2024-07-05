@@ -1,118 +1,96 @@
-/* Reset default margin and padding */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
 }
 
-/* Container styles */
 .container {
+    max-width: 450px; /* Updated width to make the container more narrow */
+    margin: 20px auto;
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
-    max-width: 100%;
+    border-radius: 8px;
 }
 
-/* Heading styles */
 h1 {
     text-align: center;
-    margin-bottom: 20px;
     color: #333;
 }
 
-/* Form styles */
-form {
-    margin-bottom: 20px;
-}
-
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
     color: #555;
 }
 
-input[type="number"],
-select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+input, select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 14px;
-}
-
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23333' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 18px;
+    box-sizing: border-box;
 }
 
 button {
+    display: block;
+    width: 100%;
     background-color: #4CAF50;
     color: white;
-    padding: 10px 15px;
+    padding: 10px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px; /* Added bottom margin to the button */
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-#results {
-    margin-top: 20px;
-}
-
-#results h2 {
+.appliance-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
     margin-bottom: 10px;
-    font-size: 18px;
     color: #333;
 }
 
-#results p {
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #555;
-}
-
-.appliance-header,
 .appliance-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.appliance-header {
-    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .appliance-name {
     width: 50%;
 }
 
-.appliance-count,
-.appliance-usage {
+.appliance-count, .appliance-usage {
     width: 20%;
+}
+
+#results {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#results h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+#results p {
+    margin-bottom: 5px;
+    color: #555;
 }
