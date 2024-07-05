@@ -50,5 +50,74 @@ function addAppliance() {
     applianceRow.appendChild(applianceUsageDiv);
 
     const additionalAppliances = document.getElementById('additional-appliances');
-    additionalAppliances.insertBefore(applianceRow, additionalAppliances.firstChild);
+    additionalAppliances.appendChild(applianceRow);
+}
+
+function calculateSystem() {
+    const appliances = document.querySelectorAll('.appliance-row');
+    let totalPower = 0;
+    let dailyEnergy = 0;
+
+    appliances.forEach(appliance => {
+        const select = appliance.querySelector('.appliance-select');
+        const quantity = appliance.querySelector('.appliance-quantity').value;
+        const hours = appliance.querySelector('.appliance-hourly-usage').value;
+
+        if (!select.value) {
+            return; // Skip if no appliance is selected
+        }
+
+        const powerRatings = {
+            'fan': 75,
+            'small-tvs': 50,
+            'medium-tvs': 100,
+            'large-tvs': 150,
+            'fridge': 200,
+            'laptops': 50,
+            'desktops': 150,
+            'ac': 500,
+            'heaters': 750,
+            'microwave': 1000,
+            'washing-machine': 500,
+            'dishwasher': 1200,
+            'oven': 2000,
+            'toaster': 800,
+            'vacuum': 600
+        };
+
+        const power = powerRatings[select.value] * quantity;
+        const energy = power * hours;
+
+        totalPower += power;
+        dailyEnergy += energy;
+    });
+
+    const sunHours = document.getElementById('sun-hours').value;
+    const batteryType = document.getElementById('battery-type').value;
+
+    const solarPanels = Math.ceil(dailyEnergy / sunHours / 300); // assuming each panel produces 300W
+    let batteryCapacity;
+    switch (batteryType) {
+        case '150ah-12v':
+            batteryCapacity = 150 * 12;
+            break;
+        case '150ah-24v':
+            batteryCapacity = 150 * 24;
+            break;
+        case '200ah-12v':
+            batteryCapacity = 200 * 12;
+            break;
+        case '200ah-24v':
+            batteryCapacity = 200 * 24;
+            break;
+    }
+    const batteries = Math.ceil(dailyEnergy / batteryCapacity);
+
+    const inverter = totalPower * 1.25; // 25% buffer
+
+    document.getElementById('total-power').innerText = `Total Power Consumption: ${totalPower} W`;
+    document.getElementById('daily-energy').innerText = `Total Daily Energy Consumption: ${dailyEnergy} Wh`;
+    document.getElementById('solar-panels').innerText = `Required Solar Panels: ${solarPanels}`;
+    document.getElementById('battery').innerText = `Required Batteries: ${batteries}`;
+    document.getElementById('inverter').innerText = `Recommended Inverter Capacity: ${inverter} W`;
 }
